@@ -1,14 +1,67 @@
 <!DOCTYPE html>
-<html lang="en" style="width:100%; height:100%;">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Apram Docs</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #222;
+      line-height: 1.6;
+      display: flex;
+      justify-content: center;
+    }
+    .container {
+      max-width: 800px;
+      width: 100%;
+      padding: 2rem;
+    }
+    header {
+      border-bottom: 2px solid #444;
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+      color: #333;
+    }
+    article {
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 1rem;
+    }
+    article h2 {
+      margin: 0;
+      font-size: 1.4rem;
+      color: #1e3a8a;
+    }
+    article p {
+      margin: 0.5rem 0;
+      color: #555;
+    }
+    .viewer {
+      margin-top: 2rem;
+      border: 1px solid #ddd;
+      height: 600px;
+      width: 100%;
+    }
+  </style>
   <script>
-
     const docs = {
-      resume: "docs/ApramAhuja_Resume.pdf",
-      transcript: "docs/ApramAhuja_Transcript.pdf",
-      // add more here later...
+      resume: {
+        file: "docs/ApramAhuja_Resume.pdf",
+        name: "Resume",
+        desc: "A professional overview of skills, projects, and experience."
+      },
+      transcript: {
+        file: "docs/ApramAhuja_Transcript.pdf",
+        name: "Transcript",
+        desc: "Academic transcript showing coursework and grades."
+      }
+      // just add more docs here once, homepage updates automatically
     };
 
     function getQueryParam(name) {
@@ -16,25 +69,47 @@
       return params.get(name);
     }
 
-    function loadDoc() {
-      const key = getQueryParam("doc"); // e.g. ?doc=resume
-      const file = docs[key];
-      const iframe = document.getElementById("docFrame");
+    function renderHome() {
+      const main = document.getElementById("main");
+      main.innerHTML = "";
 
-      if (file) {
-        const url = `https://docs.google.com/gview?url=https://raw.githubusercontent.com/apramm/resume/main/${file}&embedded=true`;
-        iframe.src = url;
+      for (const key in docs) {
+        const doc = docs[key];
+        const article = document.createElement("article");
+        article.innerHTML = `
+          <h2><a href="?doc=${key}">${doc.name}</a></h2>
+          <p>${doc.desc || ""}</p>
+        `;
+        main.appendChild(article);
+      }
+    }
+
+    function loadDoc() {
+      const key = getQueryParam("doc");
+      const viewer = document.getElementById("docFrame");
+      const main = document.getElementById("main");
+
+      if (key && docs[key]) {
+        const url = `https://docs.google.com/gview?url=https://raw.githubusercontent.com/apramm/resume/main/${docs[key].file}&embedded=true`;
+        viewer.src = url;
+        viewer.style.display = "block";
       } else {
-        iframe.srcdoc = "Document not found";
+        viewer.style.display = "none";
+        renderHome();
       }
     }
 
     window.onload = loadDoc;
   </script>
 </head>
-<body style="width:100%; height:100%; margin:0;">
-  <iframe id="docFrame"
-    style="width:100%; height:100%; border:none;">
-  </iframe>
+<body>
+  <div class="container">
+    <header>
+      <h1>📄 Apram Docs</h1>
+    </header>
+
+    <main id="main"></main>
+    <iframe id="docFrame" class="viewer"></iframe>
+  </div>
 </body>
 </html>
