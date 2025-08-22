@@ -11,11 +11,14 @@
       // add more here later...
     };
 
-    // Dynamically set iframe src based on URL path (/docs/resume etc.)
-    function loadDoc() {
-      const path = window.location.pathname.split("/").pop(); // e.g. "resume"
-      const file = docs[path];
+     function getQueryParam(name) {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
+    }
 
+    function loadDoc() {
+      const key = getQueryParam("doc"); // e.g. ?doc=resume
+      const file = docs[key];
       const iframe = document.getElementById("docFrame");
 
       if (file) {
