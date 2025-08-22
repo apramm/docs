@@ -6,8 +6,8 @@
   <script>
 
     const docs = {
-      resume: "https://raw.githubusercontent.com/apramm/resume/main/docs/ApramAhuja_Resume.pdf",
-      transcript: "https://raw.githubusercontent.com/apramm/resume/main/docs/ApramAhuja_Transcript.pdf",
+      resume: "docs/ApramAhuja_Resume.pdf",
+      transcript: "docs/ApramAhuja_Transcript.pdf",
       // add more here later...
     };
 
@@ -22,10 +22,10 @@
       const iframe = document.getElementById("docFrame");
 
       if (file) {
-        const url = `https://docs.google.com/gview?url=${file}&embedded=true`;
+        const url = `https://docs.google.com/gview?url=https://raw.githubusercontent.com/apramm/resume/main/${file}&embedded=true`;
         iframe.src = url;
       } else {
-        iframe.srcdoc = "<h2 style='text-align:center;margin-top:20%;'>Document not found.</h2>";
+        iframe.srcdoc = "Document not found";
       }
     }
 
