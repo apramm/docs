@@ -2,22 +2,20 @@
 <html lang="en" style="width:100%; height:100%;">
 <head>
   <meta charset="UTF-8">
-  <title>Apram Docs</title>
+  <title>Docs Viewer</title>
   <script>
     // Map friendly names to document file paths
     const docs = {
       resume: "docs/ApramAhuja_Resume.pdf",
       transcript: "docs/ApramAhuja_Transcript.pdf",
-      // add more here later...
+      // add more entries as needed...
     };
 
-     function getQueryParam(name) {
-      const params = new URLSearchParams(window.location.search);
-      return params.get(name);
-    }
-
     function loadDoc() {
-      const key = getQueryParam("doc"); // e.g. ?doc=resume
+      // Grab the last part of the URL path
+      const pathParts = window.location.pathname.split("/").filter(Boolean);
+      const key = pathParts[pathParts.length - 1]; // e.g. "resume"
+
       const file = docs[key];
       const iframe = document.getElementById("docFrame");
 
@@ -33,8 +31,6 @@
   </script>
 </head>
 <body style="width:100%; height:100%; margin:0;">
-  <iframe id="docFrame"
-    style="width:100%; height:100%; border:none;">
-  </iframe>
+  <iframe id="docFrame" style="width:100%; height:100%; border:none;"></iframe>
 </body>
 </html>
