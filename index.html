@@ -2,13 +2,36 @@
 <html lang="en" style="width:100%; height:100%;">
 <head>
   <meta charset="UTF-8">
-  <title>Apram's Resume</title>
+  <title>Apram Docs</title>
+  <script>
+    // Map friendly names to document file paths
+    const docs = {
+      resume: "docs/ApramAhuja_Resume.pdf",
+      transcript: "docs/ApramAhuja_Transcript.pdf",
+      // add more here later...
+    };
+
+    // Dynamically set iframe src based on URL path (/docs/resume etc.)
+    function loadDoc() {
+      const path = window.location.pathname.split("/").pop(); // e.g. "resume"
+      const file = docs[path];
+
+      const iframe = document.getElementById("docFrame");
+
+      if (file) {
+        const url = `https://docs.google.com/gview?url=${location.origin}/${file}&embedded=true`;
+        iframe.src = url;
+      } else {
+        iframe.srcdoc = "<h2 style='text-align:center;margin-top:20%;'>Document not found.</h2>";
+      }
+    }
+
+    window.onload = loadDoc;
+  </script>
 </head>
 <body style="width:100%; height:100%; margin:0;">
-  <iframe 
-    src="https://docs.google.com/gview?url=https://raw.githubusercontent.com/apramm/resume/main/ApramAhuja_Resume.pdf&embedded=true" 
-    style="width:100%; height:100%;" 
-    frameborder="0">
+  <iframe id="docFrame"
+    style="width:100%; height:100%; border:none;">
   </iframe>
 </body>
 </html>
